@@ -1,37 +1,36 @@
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
+    protected static StringBuilder log = new StringBuilder();
+
     public static void main(String[] args) {
+        List<String> folders = new ArrayList<>();
         try {
-            StringBuilder log = new StringBuilder();
-            File games = new File("C:\\netology\\Games");
-            File src = new File("C:\\netology\\Games\\src");
-            File res = new File("C:\\netology\\Games\\res");
-            File savegames = new File("C:\\netology\\Games\\savegames");
-            File temp = new File("C:\\netology\\Games\\temp");
-            File main = new File("C:\\netology\\Games\\src\\main");
-            File test = new File("C:\\netology\\Games\\src\\test");
-            File drawables = new File("C:\\netology\\Games\\res\\drawables");
-            File vectors = new File("C:\\netology\\Games\\res\\vectors");
-            File icons = new File("C:\\netology\\Games\\res\\icons");
-            File mainFile = new File(main, "Main.java");
-            File utilsFile = new File(main, "Utils.java");
-            File tempFile = new File(temp, "temp.txt");
-            log = logingMkdir(games, log);
-            log = logingMkdir(src, log);
-            log = logingMkdir(res, log);
-            log = logingMkdir(savegames, log);
-            log = logingMkdir(temp, log);
-            log = logingMkdir(main, log);
-            log = logingMkdir(test, log);
-            log = logingMkdir(drawables, log);
-            log = logingMkdir(vectors, log);
-            log = logingMkdir(icons, log);
-            log = logingCreateNewFile(mainFile, log);
-            log = logingCreateNewFile(utilsFile, log);
-            log = logingCreateNewFile(tempFile, log);
+            folders.add("C:\\netology\\Games");
+            folders.add("C:\\netology\\Games\\src");
+            folders.add("C:\\netology\\Games\\res");
+            folders.add("C:\\netology\\Games\\savegames");
+            folders.add("C:\\netology\\Games\\temp");
+            folders.add("C:\\netology\\Games\\src\\main");
+            folders.add("C:\\netology\\Games\\src\\test");
+            folders.add("C:\\netology\\Games\\res\\drawables");
+            folders.add("C:\\netology\\Games\\res\\vectors");
+            folders.add("C:\\netology\\Games\\res\\icons");
+
+            for (String folder : folders) {
+                logingMkdir(folder);
+            }
+
+
+            File tempFile = new File("C:\\netology\\Games\\temp", "temp.txt");
+            if (tempFile.createNewFile()) {
+                log.append("Файл " + tempFile.getName() + " создан\n");
+            } else log.append("Ошибка при создани файла "  + tempFile.getName() + " \n");
+
             try (FileWriter writer = new FileWriter(tempFile)) {
                 writer.write(log.toString());
             } catch (IOException e) {
@@ -42,17 +41,21 @@ public class Main {
         }
     }
 
-    public static StringBuilder logingMkdir(File file, StringBuilder str) {
-        if (file.mkdir()) {
-            str.append("Каталог " + file.getName() + " создан\n");
-        } else str.append("Каталог " + file.getName() + " не создан\n");
-        return str;
+    public static void logingMkdir(String path) throws IOException {
+        File folder = new File(path);
+        if (folder.mkdir()) {
+            log.append("Каталог " + folder.getName() + " создан\n");
+        } else log.append("Ошибка при создани каталога " + folder.getName() + " \n");
+        if (folder.getName().equals("main")) {
+            File f = new File(folder, "Main.java");
+            if (f.createNewFile()) {
+                log.append("Файл " + f.getName() + " создан\n");
+            } else log.append("Ошибка при создани файла "  + f.getName() + " \n");
+            File f1 = new File(folder, "Utils.java");
+            if (f1.createNewFile()) {
+                log.append("Файл " + f1.getName() + " создан\n");
+            } else log.append("Ошибка при создани файла "  + f1.getName() + " \n");
+        }
     }
 
-    public static StringBuilder logingCreateNewFile(File file, StringBuilder str) throws IOException {
-        if (file.createNewFile()) {
-            str.append("Файл " + file.getName() + " создан\n");
-        } else str.append("Файл " + file.getName() + " не создан\n");
-        return str;
-    }
 }
