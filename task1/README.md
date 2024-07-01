@@ -14,20 +14,22 @@ public class Main {
     protected static StringBuilder log = new StringBuilder();
 
     public static void main(String[] args) {
-        List<String> folders = new ArrayList<>();
+        List<String> paths = new ArrayList<>();
         try {
-            folders.add("C:\\netology\\Games");
-            folders.add("C:\\netology\\Games\\src");
-            folders.add("C:\\netology\\Games\\res");
-            folders.add("C:\\netology\\Games\\savegames");
-            folders.add("C:\\netology\\Games\\temp");
-            folders.add("C:\\netology\\Games\\src\\main");
-            folders.add("C:\\netology\\Games\\src\\test");
-            folders.add("C:\\netology\\Games\\res\\drawables");
-            folders.add("C:\\netology\\Games\\res\\vectors");
-            folders.add("C:\\netology\\Games\\res\\icons");
+            paths.add("C:\\netology\\Games");
+            paths.add("C:\\netology\\Games\\src");
+            paths.add("C:\\netology\\Games\\res");
+            paths.add("C:\\netology\\Games\\savegames");
+            paths.add("C:\\netology\\Games\\temp");
+            paths.add("C:\\netology\\Games\\src\\main");
+            paths.add("C:\\netology\\Games\\src\\test");
+            paths.add("C:\\netology\\Games\\res\\drawables");
+            paths.add("C:\\netology\\Games\\res\\vectors");
+            paths.add("C:\\netology\\Games\\res\\icons");
+            paths.add("C:\\netology\\Games\\src\\main\\Main.java");
+            paths.add("C:\\netology\\Games\\src\\main\\Utils.java");
 
-            for (String folder : folders) {
+            for (String folder : paths) {
                 logingMkdir(folder);
             }
 
@@ -48,19 +50,18 @@ public class Main {
     }
 
     public static void logingMkdir(String path) throws IOException {
-        File folder = new File(path);
-        if (folder.mkdir()) {
-            log.append("Каталог " + folder.getName() + " создан\n");
-        } else log.append("Ошибка при создани каталога " + folder.getName() + " \n");
-        if (folder.getName().equals("main")) {
-            File f = new File(folder, "Main.java");
+        File f = new File(path);
+        if (f.getName().contains(".")) {
             if (f.createNewFile()) {
                 log.append("Файл " + f.getName() + " создан\n");
             } else log.append("Ошибка при создани файла " + f.getName() + " \n");
-            File f1 = new File(folder, "Utils.java");
-            if (f1.createNewFile()) {
-                log.append("Файл " + f1.getName() + " создан\n");
-            } else log.append("Ошибка при создани файла " + f1.getName() + " \n");
+        } else {
+            if (f.mkdir()) {
+                log.append("Каталог " + f.getName() + " создан\n");
+
+            } else {
+                log.append("Ошибка при создани каталога " + f.getName() + " \n");
+            }
         }
     }
 
